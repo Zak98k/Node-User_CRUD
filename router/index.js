@@ -23,6 +23,7 @@ router.delete('/user/:id',
 
 router.post('/user/:id',
     validationMiddleware.id,
+    validationMiddleware.email,
     userController.updateUser);
 
 module.exports=router;

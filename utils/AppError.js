@@ -34,7 +34,7 @@ module.exports.wrongEmail=WrongEmail;
 
 class LackOfUserParameters extends AppError{
     constructor(message){
-        super(message||'Lack of user parameters, from AppError\'',400);
+        super(message||'Lack of body parameters, from AppError\'',400);
     }
 }
 module.exports.lackOfUserParameters=LackOfUserParameters;

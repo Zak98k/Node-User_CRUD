@@ -22,33 +22,34 @@ module.exports.body = (req, res, next) => {
             if (b)
                 next();
             else
-                throw new AppError.lackOfUserParameters('Fill in all fields, from validationMiddleware!');
-        });
+                next(new AppError.lackOfUserParameters('Fill in all fields, from validationMiddleware!'));
+        }).catch();
 };
 
 module.exports.email = (req, res, next) => {
     User.find({email: req.body.email})
-        .then(m => {
-            if (m)
+        .then(em => {
+            if (em) {
+                next(new AppError.wrongEmail('The email you specified is already existing, from validationMiddleware'));
+            } else {
                 next();
-            else
-                throw new AppError.wrongEmail('The email you specified is already existing, from validationMiddleware')
-        })
+            }
+        }).catch(
+        () => next(new AppError.userFoundError("Wrong email, from validationMiddleware"))
+    );
 };
 
 module.exports.id = (req, res, next) => {
-    console.log("validationMiddleware - " + req.params.id);
     User.findById(req.params.id)
         .then(user => {
-        if (user) {
-           next();
-        }
-        else {
-            next(new AppError.userFoundError("User not found, from validationMiddleware"));
-        }
+            if (user) {
+                next();
+            } else {
+                next(new AppError.userFoundError("User not found, from validationMiddleware"));
+            }
         })
         .catch(
-            () => next(new AppError.userFoundError("Another error while searching for user, from validationMiddleware"))
+            () => next(new AppError.userFoundError("Some problems with the user id., from validationMiddleware"))
         );
 };
 
