@@ -38,3 +38,4 @@ class LackOfUserParameters extends AppError{
     }
 }
 module.exports.lackOfUserParameters=LackOfUserParameters;
+
