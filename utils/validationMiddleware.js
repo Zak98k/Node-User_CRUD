@@ -26,6 +26,7 @@ module.exports.body = (req, res, next) => {
         }).catch();
 };
 
+
 module.exports.email = (req, res, next) => {
     User.find({email: req.body.email})
         .then(em => {
